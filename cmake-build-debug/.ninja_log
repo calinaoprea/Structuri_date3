@@ -1,0 +1,25 @@
+# ninja log v5
+246	321	1682586354008884333	Structuri_date3	af0097531b25e5a
+1	518	1682524531517004346	CMakeFiles/Structuri_date3.dir/ExtendedTest.cpp.o	49f5935059ac480e
+0	344	1682524531341005657	CMakeFiles/Structuri_date3.dir/App.cpp.o	87e5581b6d0fa8f5
+0	246	1682586353932882092	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+1	42	1682524608741157656	CMakeFiles/Structuri_date3.dir/BagIterator.cpp.o	39271c2d607be0a8
+1	102	1682586107838041879	CMakeFiles/Structuri_date3.dir/ShortTest.cpp.o	1f7657c5357d4f48
+1	50	1682949602624622769	CMakeFiles/Structuri_date3.dir/BagIterator.cpp.o	39271c2d607be0a8
+1	56	1682949602628626115	CMakeFiles/Structuri_date3.dir/ShortTest.cpp.o	1f7657c5357d4f48
+0	337	1682949602872830214	CMakeFiles/Structuri_date3.dir/App.cpp.o	87e5581b6d0fa8f5
+1	388	1682949602960903824	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+1	781	1682949603357228349	CMakeFiles/Structuri_date3.dir/ExtendedTest.cpp.o	49f5935059ac480e
+781	857	1682949603433290475	Structuri_date3	af0097531b25e5a
+1	71	1682951180416132188	CMakeFiles/Structuri_date3.dir/BagIterator.cpp.o	39271c2d607be0a8
+0	288	1682951180624110420	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+288	523	1682951180868084886	Structuri_date3	af0097531b25e5a
+1	229	1682951342727500368	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+229	299	1682951342795534613	Structuri_date3	af0097531b25e5a
+1	225	1682951831629171532	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+225	294	1682951831697147948	Structuri_date3	af0097531b25e5a
+1	224	1682959007487267707	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+224	294	1682959007559270646	Structuri_date3	af0097531b25e5a
+72	195	1683180990561898517	CMakeFiles/Structuri_date3.dir/BagIterator.cpp.o	39271c2d607be0a8
+71	661	1683180991025124902	CMakeFiles/Structuri_date3.dir/Bag.cpp.o	db3219f804efe317
+661	918	1683180991280711579	Structuri_date3	af0097531b25e5a
