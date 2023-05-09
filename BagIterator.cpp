@@ -7,42 +7,40 @@ using namespace std;
 
 BagIterator::BagIterator(const Bag& c): bag(c)
 {
-    this->current = this->bag.first;
+    this->currentIndex = this->bag.head;
+    this->currentFreq = 0;
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
 void BagIterator::first() {
-    this->current = this->bag.first;
+    this->currentIndex = this->bag.head;
+    this->currentFreq = 0;
 }
 
-//best case: O(1)
-//worst case: O(n)
-//overall case: O(n)
+
 void BagIterator::next() {
-    if (!valid()){
-        throw exception();
-    } else {
-        this->current = this->bag.nextLink[this->current];
+    exception myex;
+    if (!this->valid()) throw myex;
+
+    this->currentFreq++;
+    if (this->currentFreq == this->bag.frequency[this->currentIndex])
+    {
+        this->currentIndex = this->bag.next[this->currentIndex];
+        this->currentFreq = 0;
     }
+
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
+
 bool BagIterator::valid() const {
-    return (this->current!=-1);
+    if (this->currentIndex == -1) return false;
+    return true;
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
+
+
 TElem BagIterator::getCurrent() const
 {
-    if (!valid()){
-        throw exception();
-    } else {
-        return this->bag.e[this->current];
-    }
+    exception myex;
+    if (!this->valid()) throw myex;
+    return this->bag.elements[this->currentIndex];
 }

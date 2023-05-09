@@ -4,151 +4,158 @@
 #include <iostream>
 using namespace std;
 
-//best case: O(1)
-//worst case: O(cp) - cp is the capacity of the bag
-//overall case: O(cp)
+
 Bag::Bag() {
-	//TODO - Implementation
-	first = -1;
-	for(int i=0; i<cp-1; i++)
-		nextLink[i] = i+1;
-	nextLink[cp-1] = -1;
-	firstEmpty = 0;
+    this->head = -1;
+    this->prevEmpty = -1;
+    this->firstEmpty = 0;
+    this->sizeElems = 0;
+    this->elements = new TElem[MAXCAP];
+    this->frequency = new TElem[MAXCAP];
+    this->next = new TElem[MAXCAP];
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
-int Bag::allocate(){
-	int i = firstEmpty;
-	firstEmpty = nextLink[firstEmpty];
-	return i;
-}
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
-void Bag::deallocate(int i){
-	nextLink[i] = firstEmpty;
-	firstEmpty = i;
-}
-
-//best case: O(1)
-//worst case: O(cp) - cp is the capacity of the bag
-//overall case: O(cp)
-int Bag::createNode(TElem elem){
-	int i = allocate();
-	if(i != -1){
-		this->e[i] = elem;
-		nextLink[i] = -1;
-	}
-	return i;
-}
-
-//best case: O(1)
-//worst case: O(cp) - cp is the capacity of the bag
-//overall case: O(cp)
 void Bag::add(TElem elem) {
-	//TODO - Implementation
-	int i = this->createNode(elem);
-	if(i!=-1){
-		nextLink[i] = first;
-		first = i;
-	}
+    if (this->isEmpty())
+    {
+        this->head = firstEmpty;
+        if (sizeElems == 0)
+        {
+            elements[sizeElems]=elem;
+            frequency[sizeElems] = 1;
+            next[sizeElems++] = -1;
+            prevEmpty = firstEmpty;
+            firstEmpty++;
+        }
+        else
+        {
+            elements[firstEmpty] = elem;
+            frequency[firstEmpty] = 1;
+            int nextEmpty = next[firstEmpty];
+            next[firstEmpty] = -1;
+            prevEmpty = firstEmpty;
+            firstEmpty = nextEmpty;
+        }
+    }
+    else
+    {
+        int current = this->head;
+        while (current != -1)
+        {
+            if (elements[current] == elem)
+            {
+                frequency[current]++;
+                return;
+            }
+            current = next[current];
+        }
+        if (firstEmpty == sizeElems)
+        {
+            next[prevEmpty] = firstEmpty;
+            elements[sizeElems] = elem;
+            frequency[sizeElems] = 1;
+            next[sizeElems++] = -1;
+            prevEmpty = firstEmpty;
+            firstEmpty++;
+        }
+        else
+        {
+            elements[firstEmpty] = elem;
+            frequency[firstEmpty] = 1;
+            next[prevEmpty] = firstEmpty;
+            int nextEmpty = next[firstEmpty];
+            next[firstEmpty] = -1;
+            prevEmpty = firstEmpty;
+            firstEmpty = nextEmpty;
+        }
+    }
 }
 
-//best case: O(1)
-//worst case: O(n) - n is the number of elements in the bag
-//overall case: O(n)
+
 bool Bag::remove(TElem elem) {
-	//TODO - Implementation
-	bool found = false;
-	int current = this->first;
-	int previous = -1;
-	while(current != -1 && !found){
-		if (this->e[current] == elem)
-			found = true;
-		else {
-			previous = current;
-			current = this->nextLink[current];
-		}
-	}
-	if (!found){
-		return false;
-	}
-	else {
-		if (previous == -1)
-			this->first = this->nextLink[this->first];
-		else
-			this->nextLink[previous] = this->nextLink[current];
-	}
-	deallocate(current);
-	return true;
+    int current = this->head,prevcurrent=-1;
+    while (current != -1)
+    {
+        if (elements[current] == elem)
+        {
+            frequency[current]--;
+            if (frequency[current] == 0)
+            {
+                if (current == this->head)
+                {
+                    this->head = next[current];
+                }
+                else next[prevcurrent] = next[current];
+                next[current] = firstEmpty;
+                firstEmpty = current;
+            }
+            return true;
+        }
+        prevcurrent = current;
+        current = next[current];
+    }
+    return false;
 }
 
-//best case: O(1)
-//worst case: O(n) - n is the number of elements in the bag
-//overall case: O(n)
+
 bool Bag::search(TElem elem) const {
-	//TODO - Implementation
-	bool found = false;
-	int current = this->first;
-	while (current != -1 && !found) {
-		if (this->e[current] == elem)
-			found = true;
-		else
-			current = this->nextLink[current];
-	}
-	return found;
+    int current = this->head;
+    while (current != -1)
+    {
+        if (elements[current] == elem) return true;
+        current = next[current];
+    }
+    return false;
 }
 
-//best case: O(1)
-//worst case: O(n) - n is the number of elements in the bag
-//overall case: O(n)
 int Bag::nrOccurrences(TElem elem) const {
-	//TODO - Implementation
-	int n = 0;
-	int current = this->first;
-	while (current != -1){
-		if (this->e[current] == elem)
-			n++;
-		current = this->nextLink[current];
-	}
-	return n;
+    int current = this->head;
+    while (current != -1)
+    {
+        if (elements[current] == elem)return frequency[current];
+        current = next[current];
+    }
+    return 0;
 }
 
-//best case: O(1)
-//worst case: O(n) - n is the number of elements in the bag
-//overall case: O(n)
+
 int Bag::size() const {
-	//TODO - Implementation
-	int n = 0;
-	int current = this->first;
-	while (current != -1) {
-		n++;
-		current = this->nextLink[current];
-	}
-	return n;
+
+    int sum = 0, current = this->head;
+    while (current != -1)
+    {
+        sum+=frequency[current];
+        current = next[current];
+    }
+    return sum;
+
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
+
 bool Bag::isEmpty() const {
-	//TODO - Implementation
-	return (first == -1);
+    if (this->head == -1) return 1;
+    return 0;
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
+void Bag::addAll(const Bag& b)
+{
+    int current = b.head;
+    while (current != -1)
+    {
+        this->add(b.elements[current]);
+        current = b.next[current];
+    }
+}
+
+
 BagIterator Bag::iterator() const {
-	return BagIterator(*this);
+    return BagIterator(*this);
 }
 
-//best case: O(1)
-//worst case: O(1)
-//overall case: O(1)
+
 Bag::~Bag() {
-    //no need to deallocate e and nextLink arrys here
+    delete[] elements;
+    delete[] frequency;
+    delete[] next;
 }
